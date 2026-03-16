@@ -2,13 +2,12 @@ from astroquery.jplhorizons import Horizons
 from astropy.time import Time
 import matplotlib.pyplot as plt
 
-cometId = '3I' # Comet 3/I ATLAS
-planets = { 'Mercury': '199', 'Venus': '299', 'Earth': '399', 'Mars': '499', 'Jupiter': '599', 'Saturn': '699', 'Uranus': '799', 'Neptune': '899'
-} # Planets Mercury to Neptune
-
+cometId = '3I' 
+planets = { 'Mercury': '199', 'Venus': '299', 'Earth': '399', 'Mars': '499', 'Jupiter': '599', 'Saturn': '699', 'Uranus': '799', 'Neptune': '899'}
 barycenter = '500@0'
-timespec = {'start':'2025-01-01', 'stop':'2027-01-01', 'step':'1d'} # Rough dates of comets travel through solar system
+timespec = {'start':'2025-05-01', 'stop':'2026-03-16', 'step':'1d'} # Rough dates of comets travel through solar system
 
+plotSize = 7
 
 
 # Retrieve comet positions
@@ -38,13 +37,11 @@ plt.title('3/I ATLAS Path across sky')
 plt.show()
 '''
 
-# Plots solar system and comet traj
+# PLOTS ORBIT THROUGHOUT SOLAR SYSTEM
 plt.figure()
 
-# Comet trajectory
+# Comet and Planet trajectory
 plt.plot(cometVec['x'], cometVec['y'])
-
-# Planet orbits
 for name, planetVec in planetVecs.items():
     plt.plot(planetVec['x'], planetVec['y'], label = name)
     
@@ -52,11 +49,11 @@ plt.scatter(0, 0)
 
 plt.xlabel("x")
 plt.ylabel("y")
-plt.title("3/I ATLAS Orbit around sun")
+plt.title("3/I ATLAS Orbit through Solar System")
 plt.text(0,0, "   Solar System Barycenter")
 
-plt.xlim(-30, 30)
-plt.ylim(-30, 30)
+plt.xlim(-plotSize, plotSize)
+plt.ylim(-plotSize, plotSize)
 
 plt.legend()
 
