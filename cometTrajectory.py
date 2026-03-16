@@ -1,8 +1,10 @@
 from astroquery.jplhorizons import Horizons
 from astropy.time import Time
 import matplotlib.pyplot as plt
+import numpy as np
 
-cometId = '3I' 
+# CONSTANTS
+cometId = '3I' # Comet 3I/ATLAS
 planets = { 'Mercury': '199', 'Venus': '299', 'Earth': '399', 'Mars': '499', 'Jupiter': '599', 'Saturn': '699', 'Uranus': '799', 'Neptune': '899'}
 barycenter = '500@0'
 timespec = {'start':'2025-05-01', 'stop':'2026-03-16', 'step':'1d'} # Rough dates of comets travel through solar system
@@ -10,15 +12,98 @@ timespec = {'start':'2025-05-01', 'stop':'2026-03-16', 'step':'1d'} # Rough date
 plotSize = 7
 
 
+# CALCULATIONS
+
 # Retrieve comet positions
 comet = Horizons(id = cometId, location = barycenter, epochs = timespec)
 cometVec = comet.vectors()
 
-# Retrieve planet positions
+cx =  cometVec['x']
+cy = cometVec['y']
+cz = cometVec['z']
+
+# Retrieve planet positions + distance from comet
 planetVecs = {}
+planetDists = {}
+
 for name, id in planets.items():
     planet = Horizons(id = id, location = barycenter, epochs = timespec)
-    planetVecs[name] = planet.vectors()
+    planetVec = planet.vectors()
+    
+    planetVecs[name] = planetVec
+    
+    px = planetVec['x']
+    py = planetVec['y']
+    pz = planetVec['z']
+    
+    # Distance between comet and planet
+    planetDists[name] = np.sqrt((cx-px)**2 + (cy-py)**2 + (cz-pz)**2)
+    
+    
+time = cometVec['datetime_str']
+
+
+# OUTPUT
+
+# PLOTS ORBIT THROUGHOUT SOLAR SYSTEM
+plt.figure()
+
+plt.plot(cx, cy, label = "3I/ATLAS")
+
+for name, planetVec in planetVecs.items():
+    plt.plot(planetVec['x'], planetVec['y'], label = name)
+    
+plt.scatter(0, 0)  
+plt.text(0, 0, "   Solar System Barycenter")
+
+plt.xlabel("x (AU)")
+plt.ylabel("y (AU)")
+plt.title("3I/ATLAS Orbit through Solar System")
+
+plt.xlim(-plotSize, plotSize)
+plt.ylim(-plotSize, plotSize)
+
+plt.legend()
+plt.show()
+
+
+
+# CLOSEST PLANET APPROACHES
+
+plt.figure()
+
+for name, planetDist in planetDists.items():
+    plt.plot(time, planetDist, label = name)
+
+plt.xlabel("Date")
+plt.ylabel("Distance (AU)")
+plt.title("Distance between 3I/ATLAS and planets")
+
+plt.legend()
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Print ephemerides
@@ -36,25 +121,3 @@ plt.ylabel('DEC')
 plt.title('3/I ATLAS Path across sky')
 plt.show()
 '''
-
-# PLOTS ORBIT THROUGHOUT SOLAR SYSTEM
-plt.figure()
-
-# Comet and Planet trajectory
-plt.plot(cometVec['x'], cometVec['y'])
-for name, planetVec in planetVecs.items():
-    plt.plot(planetVec['x'], planetVec['y'], label = name)
-    
-plt.scatter(0, 0)  
-
-plt.xlabel("x")
-plt.ylabel("y")
-plt.title("3/I ATLAS Orbit through Solar System")
-plt.text(0,0, "   Solar System Barycenter")
-
-plt.xlim(-plotSize, plotSize)
-plt.ylim(-plotSize, plotSize)
-
-plt.legend()
-
-plt.show()

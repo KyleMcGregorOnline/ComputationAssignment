@@ -3,25 +3,52 @@ from astropy.time import Time
 import matplotlib.pyplot as plt
 import numpy as np
 
-cometId = '3I' # Comet 3/I ATLAS
+# VARIABLES
+cometId = '3I' # Comet 3I/ATLAS
 planets = { 'Mercury': '199', 'Venus': '299', 'Earth': '399', 'Mars': '499', 'Jupiter': '599', 'Saturn': '699', 'Uranus': '799', 'Neptune': '899'}
 barycenter = '500@0'
 timespec = Time('2025-07-01').jd # date of first observation in julian date
 
+# CALCULATIONS
 comet = Horizons(id = cometId, location = barycenter, epochs = timespec)
 cometInfo = comet.elements()
 cometVec = comet.vectors()
+cometEph = comet.ephemerides()
 
-cometVx =cometVec['vx'][0]
-cometVy =cometVec['vy'][0]
-cometVz =cometVec['vz'][0]
+# Velocity
+cometVx = cometVec['vx'][0]
+cometVy = cometVec['vy'][0]
+cometVz = cometVec['vz'][0]
 
 cometVAuDay = np.sqrt(cometVx**2 + cometVy**2 + cometVz**2) 
 cometV = cometVAuDay * 1731.46
 
 
-# How did it pass into the Solar System?
+# OUTPUT
 print("HOW DID IT PASS INTO THE SOLAR SYSTEM \n")
 
-print(f"Eccentricty = {cometInfo['e'][0]}")
+print(f"Eccentricty = {cometInfo['e'][0]}") # e > 1 means hyperbolic orbit
 print(f"Velocity = {cometV} km/s")
+print("\n")
+
+
+print("WHY WAS THIS ONE DETECTED \n")
+
+print(f"Total Apparent Magnitude = {cometEph['Tmag'][0]}")
+print("\n")
+
+
+print("FACTORS MODULATING COMET FROM PERFECT KEPLARIAN ORBIT \n")
+
+print("Large planetary bodies such as jupiter exert a large gravitational force")
+print("Outgassing - Approaching the sun causes ")
+print("\n")
+
+
+
+
+
+# REFERENCES
+
+'https://science.nasa.gov/solar-system/comets/'
+'https://science.nasa.gov/solar-system/comets/3i-atlas/'
