@@ -7,7 +7,7 @@ import numpy as np
 cometId = '3I' # Comet 3I/ATLAS
 planets = { 'Mercury': '199', 'Venus': '299', 'Earth': '399', 'Mars': '499', 'Jupiter': '599', 'Saturn': '699', 'Uranus': '799', 'Neptune': '899'}
 barycenter = '500@0'
-timespec = {'start':'2025-05-01', 'stop':'2026-03-30', 'step':'1d'} # Rough dates of comets travel through solar system
+timespec = {'start':'2025-01-01', 'stop':'2027-01-01', 'step':'1d'}
 
 plotSize = 7
 

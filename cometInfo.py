@@ -34,17 +34,20 @@ print("\n")
 
 print("WHY WAS THIS ONE DETECTED \n")
 
-print(f"Total Apparent Magnitude = {cometEph['Tmag'][0]}")
+print(f"Total Apparent Magnitude at first observed date = {cometEph['Tmag'][0]}")
 print("\n")
 
 
 print("FACTORS MODULATING COMET FROM PERFECT KEPLARIAN ORBIT \n")
 
 print("Large planetary bodies such as jupiter exert a large gravitational force")
-print("Outgassing - Approaching the sun causes ")
+print("Outgassing - Approaching the sun causes sublimation of ice on the comet, creating gas jets that alter its trajectory")
+print("Measurement error and limited observation window")
 print("\n")
 
+print("BEST OBSERVATION TIME \n")
 
+print("During approaches closest to earth since magnitude is greater and easier to observe")
 
 
 
